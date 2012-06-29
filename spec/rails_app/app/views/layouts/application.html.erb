@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RailsApp</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<div id='notice'>
+  <%= flash[:notice] %>
+</div>
+<div id='alert'>
+  <%= flash[:alert] %>
+</div>
+
+<% if current_admin %>
+  <%= link_to "Sign Out", destroy_admin_session_path, :method => :delete %>
+<% end %>
+
+<%= yield %>
+
+</body>
+</html>

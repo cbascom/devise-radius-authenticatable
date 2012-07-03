@@ -30,7 +30,7 @@ Run the rails generator for devise-radius-authenticatable.  Note that the genera
 
     rails generate devise_radius_authenticatable:install <IP> <SECRET> [options]
 
-This will update the devise.rb initializer. The <IP> and <SECRET> parameters specify the IP address and shared secret for the radius server.  There are also some options you can pass to the generator:
+This will update the devise.rb initializer. The IP and SECRET parameters specify the IP address and shared secret for the radius server.  There are also some options you can pass to the generator to customize some default settings:
 
 Options:
 

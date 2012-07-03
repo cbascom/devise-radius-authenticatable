@@ -34,14 +34,14 @@ This will update the devise.rb initializer. The <IP> and <SECRET> parameters spe
 
 Options:
 
-  [--uid-field=UID_FIELD]  # What database column to use for the UID
-                           # Default: uid
-  [--port=PORT]            # The port to connect to the radius server on
-                           # Default: 1812
-  [--timeout=TIMEOUT]      # How long to wait for a response from the radius server
-                           # Default: 60
-  [--retries=RETRIES]      # How many times to retry a radius request
-                           # Default: 0
+    [--uid-field=UID_FIELD]  # What database column to use for the UID
+                             # Default: uid
+    [--port=PORT]            # The port to connect to the radius server on
+                             # Default: 1812
+    [--timeout=TIMEOUT]      # How long to wait for a response from the radius server
+                             # Default: 60
+    [--retries=RETRIES]      # How many times to retry a radius request
+                             # Default: 0
 
 Usage
 -----

@@ -43,6 +43,11 @@ Options:
     [--retries=RETRIES]      # How many times to retry a radius request
                              # Default: 0
 
+Documentation
+-------------
+
+The rdocs for the gem are available here: http://rubydoc.info/github/cbascom/devise-radius-authenticatable/master/frames
+
 Usage
 -----
 

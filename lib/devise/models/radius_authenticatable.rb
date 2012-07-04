@@ -31,11 +31,8 @@ module Devise
         end
       end
 
-      def radius_authentication_succeeded
-        self.save(:validate => false)
-      end
-
       def after_radius_authentication
+        self.save(:validate => false)
       end
 
       module ClassMethods
@@ -53,12 +50,7 @@ module Devise
           resource = find_for_authentication({ uid_field => uid }) ||
             new(uid_field => uid)
 
-          if resource.valid_radius_password?(username, password)
-            resource.radius_authentication_succeeded
-            resource
-          else
-            nil
-          end
+          resource.valid_radius_password?(username, password) ? resource : nil
         end
 
         def radius_credentials(authentication_hash)

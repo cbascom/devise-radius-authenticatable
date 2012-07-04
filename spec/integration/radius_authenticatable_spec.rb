@@ -43,6 +43,15 @@ describe "login" do
     page.should have_content("Invalid email or password")
   end
 
+  it "invokes the after_radius_authentication callback" do
+    fill_in "Login", :with => 'testuser'
+    fill_in "Password", :with => 'password'
+    click_button "Sign in"
+
+    uid = Admin.radius_uid_generator.call('testuser', Admin.radius_server)
+    Admin.where(Admin.radius_uid_field => uid).count.should == 1
+  end
+
   context "when radius authentication is the first strategy" do
     before do
       @admin2 = FactoryGirl.create(:admin, :password => 'password')

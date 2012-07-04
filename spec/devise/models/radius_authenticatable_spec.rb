@@ -67,40 +67,23 @@ describe Devise::Models::RadiusAuthenticatable do
 
     context "and authentication succeeds" do
       it "creates a new user record if none was found" do
-        Admin.find_for_radius_authentication(good_auth_hash)
-        Admin.where(@uid_field => @uid).count.should == 1
+        Admin.find_for_radius_authentication(good_auth_hash).should be_new_record
+      end
+
+      it "fills in the uid when creating the new record" do
+        admin = Admin.find_for_radius_authentication(good_auth_hash)
+        admin.send(@uid_field).should == @uid
       end
 
       it "uses the existing user record when one is found" do
         admin = FactoryGirl.create(:admin, @uid_field => @uid)
         Admin.find_for_radius_authentication(good_auth_hash).should == admin
       end
-
-      it "invokes the radius_authentication_succeeded callback" do
-        Admin.any_instance.should_receive(:radius_authentication_succeeded)
-        Admin.find_for_radius_authentication(good_auth_hash)
-      end
-
-      it "returns the user record" do
-        admin = Admin.find_for_radius_authentication(good_auth_hash)
-        admin.should be_an_instance_of(Admin)
-      end
     end
 
     context "and authentication fails" do
       it "does not create a new user record" do
-        Admin.find_for_radius_authentication(bad_auth_hash)
-        Admin.where(@uid_field => @uid).count.should == 0
-      end
-
-      it "does not invoke the radius_authentication_succeeded callback" do
-        Admin.any_instance.should_not_receive(:radius_authentication_succeeded)
-        Admin.find_for_radius_authentication(bad_auth_hash)
-      end
-
-      it "returns nil" do
-        admin = Admin.find_for_radius_authentication(bad_auth_hash)
-        admin.should be_nil
+        Admin.find_for_radius_authentication(bad_auth_hash).should be_nil
       end
     end
   end

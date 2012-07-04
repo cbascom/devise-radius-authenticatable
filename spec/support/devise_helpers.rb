@@ -14,3 +14,5 @@ module DeviseHelpers
     end
   end
 end
+
+RSpec::configure { |c| c.include DeviseHelpers }

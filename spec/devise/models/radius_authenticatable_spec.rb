@@ -11,8 +11,6 @@ class Configurable < Admin
 end
 
 describe Devise::Models::RadiusAuthenticatable do
-  include DeviseHelpers
-
   let(:auth_key) { Devise.authentication_keys.first }
 
   it "allows configuration of the radius server IP" do
@@ -47,6 +45,22 @@ describe Devise::Models::RadiusAuthenticatable do
     swap(Devise, :authentication_keys => [:username, :domain]) do
       auth_hash = { :username => 'cbascom', :password => 'testing' }
       Configurable.radius_credentials(auth_hash).should == ['cbascom', 'testing']
+    end
+  end
+
+  it "converts the username to lower case if the key is case insensitive" do
+    swap(Devise, {:authentication_keys => [:username, :domain],
+           :case_insensitive_keys => [:username]}) do
+      auth_hash = { :username => 'Cbascom', :password => 'testing' }
+      Configurable.radius_credentials(auth_hash).should == ['cbascom', 'testing']
+    end
+  end
+
+  it "does not convert the username to lower case if the key is not case insensitive" do
+    swap(Devise, {:authentication_keys => [:username, :domain],
+           :case_insensitive_keys => []}) do
+      auth_hash = { :username => 'Cbascom', :password => 'testing' }
+      Configurable.radius_credentials(auth_hash).should == ['Cbascom', 'testing']
     end
   end
 

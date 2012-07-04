@@ -52,7 +52,7 @@ class RadiusServer
   end
 
   def authenticate(username, password)
-    if @users[username][:password] == password
+    if @users[username] && @users[username][:password] == password
       { :code => 'Access-Accept' }.merge(@users[username][:attributes])
     else
       { :code => 'Access-Reject' }

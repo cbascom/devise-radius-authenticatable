@@ -52,6 +52,28 @@ describe "login" do
     Admin.where(Admin.radius_uid_field => uid).count.should == 1
   end
 
+  it "successfully logs in a user with case insensitive username" do
+    swap(Devise, :case_insensitive_keys => [Admin.authentication_keys.first]) do
+      fill_in "Login", :with => 'TESTUSER'
+      fill_in "Password", :with => 'password'
+      click_button "Sign in"
+
+      current_path.should == root_path
+      page.should have_content("Signed in successfully")
+    end
+  end
+
+  it "fails to log in a user with case sensitive username" do
+    swap(Devise, :case_insensitive_keys => []) do
+      fill_in "Login", :with => 'TESTUSER'
+      fill_in "Password", :with => 'password'
+      click_button "Sign in"
+
+      current_path.should == new_admin_session_path
+      page.should have_content("Invalid email or password")
+    end
+  end
+
   context "when radius authentication is the first strategy" do
     before do
       @admin2 = FactoryGirl.create(:admin, :password => 'password')

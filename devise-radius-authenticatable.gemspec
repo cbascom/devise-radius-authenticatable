@@ -28,5 +28,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency('factory_girl', '~> 3.4')
   s.add_development_dependency('capybara', '~> 1.1')
   s.add_development_dependency('launchy')
-#  s.add_development_dependency('ammeter', '~> 0.2')
+  s.add_development_dependency('ammeter', '~> 0.2')
 end

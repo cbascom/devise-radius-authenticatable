@@ -7,7 +7,8 @@ class Configurable < Admin
          :radius_uid_field => :email,
          :radius_uid_generator => Proc.new { |username, server|
            "#{username}_#{server}"
-         })
+         },
+         :radius_dictionary_path => Rails.root.join('config/dictionaries'))
 end
 
 describe Devise::Models::RadiusAuthenticatable do
@@ -39,6 +40,10 @@ describe Devise::Models::RadiusAuthenticatable do
 
   it "allows configuration of the radius uid generator" do
     Configurable.radius_uid_generator.call('test', '1.2.3.4').should == 'test_1.2.3.4'
+  end
+
+  it "allows configuration of the radius dictionary path" do
+    Configurable.radius_dictionary_path.should == Rails.root.join('config/dictionaries')
   end
 
   it "extracts radius credentials based on the configured authentication keys" do
@@ -110,14 +115,19 @@ describe Devise::Models::RadiusAuthenticatable do
 
     it "passes the configured options when building the radius request" do
       server_url = "#{Admin.radius_server}:#{Admin.radius_server_port}"
-      server_options = {
-        :reply_timeout => Admin.radius_server_timeout,
-        :retries_number => Admin.radius_server_retries
-      }
       @admin.valid_radius_password?('testuser', 'password')
 
       radius_server.url.should == server_url
-      radius_server.options.should == server_options
+      radius_server.options[:reply_timeout].should == Admin.radius_server_timeout
+      radius_server.options[:retries_number].should == Admin.radius_server_retries
+      radius_server.options[:dict].should be_a(Radiustar::Dictionary)
+    end
+
+    it "does not add the :dict option if no dictionary path is configured" do
+      swap(Admin, :radius_dictionary_path => nil) do
+        @admin.valid_radius_password?('testuser', 'password')
+        radius_server.options.should_not have_key(:dict)
+      end
     end
 
     it "returns false when the password is incorrect" do

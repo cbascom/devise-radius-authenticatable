@@ -22,6 +22,8 @@ module DeviseRadiusAuthenticatable
                  :desc => 'How long to wait for a response from the radius server')
     class_option(:retries, :default => 0,
                  :desc => 'How many times to retry a radius request')
+    class_option(:dictionary_path, :default => nil,
+                 :desc => 'The path to load radius dictionary files from')
 
     def install
       inject_into_file("config/initializers/devise.rb", default_devise_settings,
@@ -72,6 +74,13 @@ module DeviseRadiusAuthenticatable
         # config.radius_uid_generator = Proc.new do |username, server|
         #  "\#{username}@\#{server}"
         # end
+
+        # There is a very basic radius dictionary provided by default.  Most of the time
+        # this will not be sufficient, so this configuration option allows you to
+        # specify the path that contains all of the radius dictionary files that should
+        # be loaded.
+        #
+        # config.radius_dictionary_path = '#{options[:dictionary_path]}'
       CONFIG
     end
   end

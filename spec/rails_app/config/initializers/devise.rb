@@ -214,6 +214,13 @@ Devise.setup do |config|
   #  "#{username}@#{server}"
   # end
 
+  # There is a very basic radius dictionary provided by default.  Most of the time
+  # this will not be sufficient, so this configuration option allows you to
+  # specify the path that contains all of the radius dictionary files that should
+  # be loaded.
+  #
+  config.radius_dictionary_path = Rails.root.join('config/dictionaries')
+
   # ==> Scopes configuration
   # Turn scoped views on. Before rendering "sessions/new", it will first check for
   # "users/sessions/new". It's turned off by default because it's slower if you

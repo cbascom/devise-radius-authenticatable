@@ -26,6 +26,9 @@ module Devise
   # The procedure to use to build the unique identifier for the radius user
   mattr_accessor :radius_uid_generator
   @@radius_uid_generator = Proc.new { |username, server| "#{username}@#{server}" }
+
+  # The path to load radius dictionary files from
+  mattr_accessor :radius_dictionary_path
 end
 
 Devise.add_module(:radius_authenticatable, :route => :session, :strategy => true,

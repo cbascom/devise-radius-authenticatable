@@ -35,6 +35,7 @@ module Devise
     # * +radius_uid_field+: The database column to store the UID in
     # * +radius_uid_generator+: A proc that takes the username and server as parameters
     #   and returns a string representing the UID
+    # * +radius_dictionary_path+: The path containing the radius dictionary files to load
     #
     # == Callbacks
     #
@@ -68,6 +69,9 @@ module Devise
           :reply_timeout => self.class.radius_server_timeout,
           :retries_number => self.class.radius_server_retries
         }
+        if self.class.radius_dictionary_path
+          options[:dict] = Radiustar::Dictionary.new(self.class.radius_dictionary_path)
+        end
 
         req = Radiustar::Request.new("#{server}:#{port}", options)
         reply = req.authenticate(username, password, secret)
@@ -94,7 +98,7 @@ module Devise
         Devise::Models.config(self, :radius_server, :radius_server_port,
                               :radius_server_secret, :radius_server_timeout,
                               :radius_server_retries, :radius_uid_field,
-                              :radius_uid_generator)
+                              :radius_uid_generator, :radius_dictionary_path)
 
         # Invoked by the RadiusAuthenticatable stratgey to perform the authentication
         # against the radius server.  The username is extracted from the authentication

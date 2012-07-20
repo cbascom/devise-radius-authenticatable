@@ -27,11 +27,13 @@ describe DeviseRadiusAuthenticatable::InstallGenerator do
       it { should contain("config.radius_server_retries = 0") }
       it { should contain("config.radius_uid_field = :uid") }
       it { should contain("config.radius_uid_generator =") }
+      it { should contain("config.radius_dictionary_path =") }
     end
 
     context "with custom options" do
       before { run_generator ['1.1.1.2', 'password', '--port=1813', '--timeout=120',
-                              '--retries=3', '--uid_field=email'] }
+                              '--retries=3', '--uid_field=email',
+                              '--dictionary_path=/tmp/dictionaries'] }
 
       it { should contain('==> Configuration for radius_authenticatable') }
       it { should contain("config.radius_server = '1.1.1.2'") }
@@ -41,6 +43,7 @@ describe DeviseRadiusAuthenticatable::InstallGenerator do
       it { should contain("config.radius_server_retries = 3") }
       it { should contain("config.radius_uid_field = :email") }
       it { should contain("config.radius_uid_generator =") }
+      it { should contain("config.radius_dictionary_path = '/tmp/dictionaries'") }
     end
   end
 end

@@ -1,7 +1,7 @@
 Devise Radius Authenticatable
 =============================
 
-[![Build Status](https://secure.travis-ci.org/cbascom/devise-radius-authenticatable.png)](http://travis-ci.org/cbascom/devise-radius-authenticatable)
+[![Build Status](https://travis-ci.org/cbascom/devise-radius-authenticatable.png)](https://travis-ci.org/cbascom/devise-radius-authenticatable)
 
 Devise Radius Authenticatable is a Radius authentication strategy for [Devise](http://github.com/plataformatec/devise).
 
@@ -19,7 +19,7 @@ In the Gemfile for your application:
 
     gem "devise", "~> 2.0"
     gem "devise-radius-authenticatable"
-    
+
 Setup
 -----
 

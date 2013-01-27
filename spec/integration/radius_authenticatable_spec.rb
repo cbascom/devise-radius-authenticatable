@@ -7,7 +7,14 @@ describe "login" do
     visit new_admin_session_path
   end
 
-  it "is successful for a database user" do
+  it "is successful for a database user with HTTP Basic Authentication" do
+    page.driver.browser.basic_authorize(@admin.email, 'password')
+    visit root_path
+
+    current_path.should == root_path
+  end
+
+  it "is successful for a database user with params authentication" do
     fill_in "Login", :with => @admin.email
     fill_in "Password", :with => 'password'
     click_button "Sign in"
@@ -16,7 +23,14 @@ describe "login" do
     page.should have_content("Signed in successfully")
   end
 
-  it "is successful for a radius user" do
+  it "is successful for a radius user with HTTP Basic Authentication" do
+    page.driver.browser.basic_authorize('testuser', 'password')
+    visit root_path
+
+    current_path.should == root_path
+  end
+
+  it "is successful for a radius user with params authentication" do
     fill_in "Login", :with => 'testuser'
     fill_in "Password", :with => 'password'
     click_button "Sign in"

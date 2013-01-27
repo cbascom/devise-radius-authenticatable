@@ -11,8 +11,9 @@ module Devise
     class RadiusAuthenticatable < Authenticatable
       # Invoked by warden to execute the strategy.
       def authenticate!
+        auth_params = authentication_hash.merge(:password => password)
         resource = valid_password? &&
-          mapping.to.find_for_radius_authentication(params[scope])
+          mapping.to.find_for_radius_authentication(auth_params)
         return fail(:invalid) unless resource
 
         if validate(resource)

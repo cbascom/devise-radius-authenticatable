@@ -2,7 +2,7 @@ Devise Radius Authenticatable
 =============================
 
 [![Build Status](https://travis-ci.org/cbascom/devise-radius-authenticatable.png)](https://travis-ci.org/cbascom/devise-radius-authenticatable)
-[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/cbascom/devise-radius-authenticatable)
+[![Code Climate](https://codeclimate.com/github/cbascom/devise-radius-authenticatable.png)](https://codeclimate.com/github/cbascom/devise-radius-authenticatable)
 
 Devise Radius Authenticatable is a Radius authentication strategy for [Devise](http://github.com/plataformatec/devise).
 

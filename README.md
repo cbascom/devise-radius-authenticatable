@@ -1,6 +1,7 @@
 Devise Radius Authenticatable
 =============================
 
+[![Gem Version](https://badge.fury.io/rb/devise-radius-authenticatable.png)](http://badge.fury.io/rb/devise-radius-authenticatable)
 [![Build Status](https://travis-ci.org/cbascom/devise-radius-authenticatable.png)](https://travis-ci.org/cbascom/devise-radius-authenticatable)
 [![Code Climate](https://codeclimate.com/github/cbascom/devise-radius-authenticatable.png)](https://codeclimate.com/github/cbascom/devise-radius-authenticatable)
 

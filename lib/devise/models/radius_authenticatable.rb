@@ -36,6 +36,7 @@ module Devise
     # * +radius_uid_generator+: A proc that takes the username and server as parameters
     #   and returns a string representing the UID
     # * +radius_dictionary_path+: The path containing the radius dictionary files to load
+    # * +handle_radius_timeout_as_failure+: Option to handle radius timeout as authentication failure
     #
     # == Callbacks
     #
@@ -74,7 +75,13 @@ module Devise
         end
 
         req = Radiustar::Request.new("#{server}:#{port}", options)
-        reply = req.authenticate(username, password, secret)
+
+        begin # radiustar #authenticate can throw "Timed out waiting for response packet from server"
+          reply = req.authenticate(username, password, secret)
+        rescue
+          return false if self.class.handle_radius_timeout_as_failure
+          raise
+        end
 
         if reply[:code] == 'Access-Accept'
           reply.extract!(:code)
@@ -98,7 +105,8 @@ module Devise
         Devise::Models.config(self, :radius_server, :radius_server_port,
                               :radius_server_secret, :radius_server_timeout,
                               :radius_server_retries, :radius_uid_field,
-                              :radius_uid_generator, :radius_dictionary_path)
+                              :radius_uid_generator, :radius_dictionary_path,
+                              :handle_radius_timeout_as_failure)
 
         # Invoked by the RadiusAuthenticatable stratgey to perform the authentication
         # against the radius server.  The username is extracted from the authentication

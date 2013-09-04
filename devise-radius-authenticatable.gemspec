@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency('devise', '~> 2.0')
-  s.add_dependency('radiustar', '~> 0.0.6')
+  s.add_dependency('radiustar', '~> 0.0.8')
 
   s.add_development_dependency('rake', '~> 0.9')
   s.add_development_dependency('rails', '~> 3.2')

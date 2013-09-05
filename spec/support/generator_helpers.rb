@@ -13,7 +13,4 @@ RSpec::configure do |c|
   c.include GeneratorHelpers, :type => :generator, :example_group => {
     :file_path => /spec[\\\/]generators/
   }
-
-  c.before(:all, :type => :generator) { destination GeneratorHelpers::DESTINATION_PATH }
-  c.before(:each, :type => :generator) { prepare_devise }
 end

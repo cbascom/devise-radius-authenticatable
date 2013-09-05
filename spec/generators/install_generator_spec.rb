@@ -2,14 +2,22 @@ require 'spec_helper'
 require 'generators/devise_radius_authenticatable/install_generator'
 
 describe DeviseRadiusAuthenticatable::InstallGenerator do
+  destination File.expand_path("../../../tmp", __FILE__)
+
+  before do
+    prepare_devise
+  end
+
   it "requires the radius server IP to be specified" do
     expect { run_generator }.
-      to raise_error(Thor::RequiredArgumentMissingError, /required arguments 'server'/)
+      to raise_error(Thor::RequiredArgumentMissingError,
+                     /required arguments 'server'/)
   end
 
   it "requires the radius server shared secret to be specified" do
     expect { run_generator ['1.1.1.1'] }.
-      to raise_error(Thor::RequiredArgumentMissingError, /required arguments 'secret'/)
+      to raise_error(Thor::RequiredArgumentMissingError,
+                     /required arguments 'secret'/)
   end
 
   context "with required arguments" do
@@ -17,8 +25,11 @@ describe DeviseRadiusAuthenticatable::InstallGenerator do
     subject { file('config/initializers/devise.rb') }
 
     context "with default options" do
-      before { run_generator ['1.1.1.1', 'secret'] }
+      before do
+        run_generator ['1.1.1.1', 'secret']
+      end
 
+      it { should exist }
       it { should contain('==> Configuration for radius_authenticatable') }
       it { should contain("config.radius_server = '1.1.1.1'") }
       it { should contain("config.radius_server_port = 1812") }
@@ -31,10 +42,13 @@ describe DeviseRadiusAuthenticatable::InstallGenerator do
     end
 
     context "with custom options" do
-      before { run_generator ['1.1.1.2', 'password', '--port=1813', '--timeout=120',
-                              '--retries=3', '--uid_field=email',
-                              '--dictionary_path=/tmp/dictionaries'] }
+      before do
+        run_generator ['1.1.1.2', 'password', '--port=1813',
+          '--timeout=120', '--retries=3', '--uid_field=email',
+          '--dictionary_path=/tmp/dictionaries']
+      end
 
+      it { should exist }
       it { should contain('==> Configuration for radius_authenticatable') }
       it { should contain("config.radius_server = '1.1.1.2'") }
       it { should contain("config.radius_server_port = 1813") }

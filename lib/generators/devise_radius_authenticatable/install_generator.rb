@@ -24,6 +24,8 @@ module DeviseRadiusAuthenticatable
                  :desc => 'How many times to retry a radius request')
     class_option(:dictionary_path, :default => nil,
                  :desc => 'The path to load radius dictionary files from')
+    class_option(:handle_timeout_as_failure, :default => false,
+                 :desc => 'Option to handle radius timeout as authentication failure')
 
     def install
       inject_into_file("config/initializers/devise.rb", default_devise_settings,
@@ -81,6 +83,10 @@ module DeviseRadiusAuthenticatable
         # be loaded.
         #
         # config.radius_dictionary_path = '#{options[:dictionary_path]}'
+
+        # Option to handle radius timeout as authentication failure
+        #
+        config.handle_radius_timeout_as_failure = #{options[:handle_timeout_as_failure]}
       CONFIG
     end
   end

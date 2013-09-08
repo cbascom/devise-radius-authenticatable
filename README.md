@@ -12,7 +12,7 @@ Dependencies
 
 - Rails ~> 3.2
 - Devise ~> 2.0
-- radiustar ~> 0.0.6
+- radiustar ~> 0.0.8
 
 Installation
 ------------

@@ -29,6 +29,11 @@ module Devise
 
   # The path to load radius dictionary files from
   mattr_accessor :radius_dictionary_path
+
+  # Option to handle radius timeout as authentication failure
+  mattr_accessor :handle_radius_timeout_as_failure
+  @@handle_radius_timeout_as_failure = false
+
 end
 
 Devise.add_module(:radius_authenticatable, :route => :session, :strategy => true,

@@ -39,13 +39,15 @@ describe DeviseRadiusAuthenticatable::InstallGenerator do
       it { should contain("config.radius_uid_field = :uid") }
       it { should contain("config.radius_uid_generator =") }
       it { should contain("config.radius_dictionary_path =") }
+      it { should contain("config.handle_radius_timeout_as_failure = false") }
     end
 
     context "with custom options" do
       before do
         run_generator ['1.1.1.2', 'password', '--port=1813',
           '--timeout=120', '--retries=3', '--uid_field=email',
-          '--dictionary_path=/tmp/dictionaries']
+          '--dictionary_path=/tmp/dictionaries',
+          '--handle_timeout_as_failure=true']
       end
 
       it { should exist }
@@ -58,6 +60,7 @@ describe DeviseRadiusAuthenticatable::InstallGenerator do
       it { should contain("config.radius_uid_field = :email") }
       it { should contain("config.radius_uid_generator =") }
       it { should contain("config.radius_dictionary_path = '/tmp/dictionaries'") }
+      it { should contain("config.handle_radius_timeout_as_failure = true") }
     end
   end
 end

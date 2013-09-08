@@ -8,7 +8,8 @@ class Configurable < Admin
          :radius_uid_generator => Proc.new { |username, server|
            "#{username}_#{server}"
          },
-         :radius_dictionary_path => Rails.root.join('config/dictionaries'))
+         :radius_dictionary_path => Rails.root.join('config/dictionaries'),
+         :handle_radius_timeout_as_failure => true)
 end
 
 describe Devise::Models::RadiusAuthenticatable do
@@ -44,6 +45,10 @@ describe Devise::Models::RadiusAuthenticatable do
 
   it "allows configuration of the radius dictionary path" do
     Configurable.radius_dictionary_path.should == Rails.root.join('config/dictionaries')
+  end
+
+  it "allows configuration of the radius exception handling" do
+    Configurable.handle_radius_timeout_as_failure.should == true
   end
 
   it "extracts radius credentials based on the configured authentication keys" do
@@ -141,6 +146,25 @@ describe Devise::Models::RadiusAuthenticatable do
     it "stores the returned attributes in the model" do
       @admin.valid_radius_password?('testuser', 'password')
       @admin.radius_attributes.should == radius_server.attributes('testuser')
+    end
+
+    context "when handle_radius_timeout_as_failure is false" do
+      it "does not catch the RuntimeError exception" do
+        Radiustar::Request.any_instance.stub(:authenticate).
+          and_raise(RuntimeError)
+        expect { @admin.valid_radius_password?('testuser', 'password') }.
+          to raise_error(RuntimeError)
+      end
+    end
+
+    context "when handle_radius_timeout_as_failure is true" do
+      it "returns false when the authentication times out" do
+        swap(Devise, :handle_radius_timeout_as_failure => true) do
+          Radiustar::Request.any_instance.stub(:authenticate).
+            and_raise(RuntimeError)
+          @admin.valid_radius_password?('testuser', 'password').should be_false
+        end
+      end
     end
   end
 end

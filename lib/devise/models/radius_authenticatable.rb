@@ -76,7 +76,9 @@ module Devise
 
         req = Radiustar::Request.new("#{server}:#{port}", options)
 
-        begin # radiustar #authenticate can throw "Timed out waiting for response packet from server"
+        # The authenticate method will raise a RuntimeError if we time
+        # out waiting for a response from the server.
+        begin
           reply = req.authenticate(username, password, secret)
         rescue
           return false if self.class.handle_radius_timeout_as_failure

@@ -38,15 +38,17 @@ This will update the devise.rb initializer. The IP and SECRET parameters specify
 
 Options:
 
-    [--uid-field=UID_FIELD]              # What database column to use for the UID
-                                         # Default: uid
-    [--port=PORT]                        # The port to connect to the radius server on
-                                         # Default: 1812
-    [--timeout=TIMEOUT]                  # How long to wait for a response from the radius server
-                                         # Default: 60
-    [--retries=RETRIES]                  # How many times to retry a radius request
-                                         # Default: 0
-    [--dictionary-path=DICTIONARY_PATH]  # The path to load radius dictionary files from
+    [--uid-field=UID_FIELD]                                  # What database column to use for the UID
+                                                             # Default: uid
+    [--port=PORT]                                            # The port to connect to the radius server on
+                                                             # Default: 1812
+    [--timeout=TIMEOUT]                                      # How long to wait for a response from the radius server
+                                                             # Default: 60
+    [--retries=RETRIES]                                      # How many times to retry a radius request
+                                                             # Default: 0
+    [--dictionary-path=DICTIONARY_PATH]                      # The path to load radius dictionary files from
+    [--handle-timeout-as-failure=HANDLE_TIMEOUT_AS_FAILURE]  # Option to handle radius timeout as authentication failure
+                                                             # Default: false
 
 Documentation
 -------------
@@ -72,7 +74,7 @@ The field that is used for logins is the first key that's configured in the Devi
 Configuration
 -------------
 
-The radius_authenticatable module is configured through the normal devise initializer `config/initializers/devise.rb`.  The initial values are added to the file when you run the devise_radius_authenticatable:install generator as describe previously.
+The radius_authenticatable module is configured through the normal devise initializer `config/initializers/devise.rb`.  The initial values are added to the file when you run the devise_radius_authenticatable:install generator as described previously.
 
 References
 ----------
@@ -81,4 +83,4 @@ References
 * [Devise](http://github.com/plataformatec/devise)
 * [Warden](http://github.com/hassox/warden)
 
-Copyright (c) 2012 Calvin Bascom Released under the MIT license
+Copyright (c) 2012-2013 Calvin Bascom Released under the MIT license

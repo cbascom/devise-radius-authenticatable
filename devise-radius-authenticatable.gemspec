@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://github.com/cbascom/devise-radius-authenticatable"
   s.description = "A new authentication strategy named radius_authenticatable is added to the list of warden strategies when the model requests it.  The radius server information is configured through the devise initializer.  When a user attempts to authenticate via radius, the radiustar gem is used to perform the authentication with the radius server.  This authentication strategy can be used in place of the database_authenticatable or alongside it depending on the needs of the application."
   s.authors     = ['Calvin Bascom']
+  s.license     = 'MIT'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- spec/*`.split("\n")
